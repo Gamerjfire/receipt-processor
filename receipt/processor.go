@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -19,7 +20,9 @@ func ProcessReceipt(enteredReceipt TotalReceipt) int {
 	points += len(slimmedName)
 
 	//Separate the decimal out
-	var _, decimal float64 = math.Modf(enteredReceipt.Total)
+
+	var floatOfTotal, _ = strconv.ParseFloat(enteredReceipt.Total, 64)
+	var _, decimal = math.Modf(floatOfTotal)
 
 	//Check for round dollar value
 	if decimal == .0 {
@@ -40,7 +43,8 @@ func ProcessReceipt(enteredReceipt TotalReceipt) int {
 		//Check if multiple of 3
 		if len(description)%3 == 0 {
 			//Do the multiplication and Ceiling check
-			points += int(math.Ceil(givenEntry.Price * .2))
+			var floatOfEntry, _ = strconv.ParseFloat(givenEntry.Price, 64)
+			points += int(math.Ceil(floatOfEntry * .2))
 		}
 	}
 
