@@ -10,10 +10,6 @@ import (
 
 var givenDataMap map[string]int = make(map[string]int)
 
-func init() {
-	givenDataMap["50"] = 35
-}
-
 func GetData(requestIn *gin.Context) {
 	entryValue, validity := givenDataMap[requestIn.Params.ByName("id")]
 	if validity {
@@ -26,8 +22,6 @@ func GetData(requestIn *gin.Context) {
 func StoreData(dataToStore *gin.Context) {
 	var receipt TotalReceipt
 
-	//TODO fix binding issue
-	//Data in correct format, working on other solutions.
 	if err := dataToStore.BindJSON(&receipt); err != nil {
 		fmt.Println(err)
 		dataToStore.IndentedJSON(http.StatusInternalServerError, "JSON isn't in required format.")

@@ -12,7 +12,7 @@ import (
 func ProcessReceipt(enteredReceipt TotalReceipt) int {
 	var dateFormat string = time.DateOnly
 	var timeFormat string = time.TimeOnly
-	var nonAlphanumericRegex = regexp.MustCompile(`[^a-zA-Z0-9 ]+`)
+	var nonAlphanumericRegex = regexp.MustCompile(`[^a-zA-Z0-9]+`)
 
 	var points int = 0
 	//Check Alphanumerics - 1 per
@@ -20,7 +20,6 @@ func ProcessReceipt(enteredReceipt TotalReceipt) int {
 	points += len(slimmedName)
 
 	//Separate the decimal out
-
 	var floatOfTotal, _ = strconv.ParseFloat(enteredReceipt.Total, 64)
 	var _, decimal = math.Modf(floatOfTotal)
 
