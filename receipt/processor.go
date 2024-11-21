@@ -15,7 +15,7 @@ func ProcessReceipt(enteredReceipt TotalReceipt) int {
 	var nonAlphanumericRegex = regexp.MustCompile(`[^a-zA-Z0-9]+`)
 
 	var points int = 0
-	//Check Alphanumerics - 1 per
+	//Check Alphanumerics - 1 point per
 	var slimmedName string = nonAlphanumericRegex.ReplaceAllString(enteredReceipt.Retailer, "")
 	points += len(slimmedName)
 
@@ -23,17 +23,17 @@ func ProcessReceipt(enteredReceipt TotalReceipt) int {
 	var floatOfTotal, _ = strconv.ParseFloat(enteredReceipt.Total, 64)
 	var _, decimal = math.Modf(floatOfTotal)
 
-	//Check for round dollar value
+	//Check for round dollar value - 50 points
 	if decimal == .0 {
 		points += 50
 	}
 
-	//Check quarter payments
+	//Check quarter payments - 25 points
 	if int(decimal*100)%25 == 0 {
 		points += 25
 	}
 
-	//Check number of items - 5 per 2 (Integer comparison, Go automatically floors the value.)
+	//Check number of items - 5 points per 2 (Integer comparison, Go automatically floors the value.)
 	points += (len(enteredReceipt.Items) / 2) * 5
 
 	//Trimmed length of item description is mult 3, mult price by .2, round up, that many points.
@@ -47,7 +47,7 @@ func ProcessReceipt(enteredReceipt TotalReceipt) int {
 		}
 	}
 
-	//Purchase date odd - 6
+	//Purchase date odd - 6 points
 	var date, dateError = time.Parse(dateFormat, enteredReceipt.PurchaseDate)
 	if dateError != nil {
 		fmt.Println("Error in date parsing, returning -1, " + dateError.Error())
@@ -57,7 +57,7 @@ func ProcessReceipt(enteredReceipt TotalReceipt) int {
 		points += 6
 	}
 
-	//Purchase between 2 and 4 pm - 10
+	//Purchase between 2 and 4 pm - 10 points
 	var time, timeError = time.Parse(timeFormat, enteredReceipt.PurchaseTime+":00")
 	if timeError != nil {
 		fmt.Println("Error in time parsing, returning -1, " + timeError.Error())

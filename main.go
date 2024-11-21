@@ -8,6 +8,11 @@ import (
 
 func main() {
 	router := gin.Default()
+	router.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
 	router.GET("/receipts/:id/points", receipt.GetData)
 	router.POST("/receipts/process", receipt.StoreData)
 

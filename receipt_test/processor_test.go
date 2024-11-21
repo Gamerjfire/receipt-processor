@@ -6,6 +6,7 @@ import (
 	"receiptprocessor/receipt"
 )
 
+// Test on provided dataset 1
 func TestProcessorOnDataset1(t *testing.T) {
 	var ExampleReceipt = receipt.TotalReceipt{Retailer: "Target", PurchaseDate: "2022-01-01", PurchaseTime: "13:01",
 		Items: []receipt.Entry{{ShortDescription: "Mountain Dew 12PK", Price: "6.49"}, {ShortDescription: "Emils Cheese Pizza", Price: "12.25"},
@@ -18,6 +19,7 @@ func TestProcessorOnDataset1(t *testing.T) {
 	}
 }
 
+// Test on provided dataset 2
 func TestProcessorOnDataset2(t *testing.T) {
 	var ExampleReceipt = receipt.TotalReceipt{Retailer: "M&M Corner Market", PurchaseDate: "2022-03-20", PurchaseTime: "14:33",
 		Items: []receipt.Entry{{ShortDescription: "Gatorade", Price: "2.25"}, {ShortDescription: "Gatorade", Price: "2.25"},
