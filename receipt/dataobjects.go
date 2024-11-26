@@ -1,6 +1,5 @@
 package receipt
 
-//Go doesn't have default Date/Time so we will have to parse them later
 type TotalReceipt struct {
 	Retailer     string  `json:"retailer"`
 	PurchaseDate string  `json:"purchaseDate"`

@@ -10,18 +10,18 @@ import (
 )
 
 func ProcessReceipt(enteredReceipt TotalReceipt) int {
-	var dateFormat string = time.DateOnly
-	var timeFormat string = time.TimeOnly
-	var nonAlphanumericRegex = regexp.MustCompile(`[^a-zA-Z0-9]+`)
+	dateFormat := time.DateOnly
+	timeFormat := time.TimeOnly
+	nonAlphanumericRegex := regexp.MustCompile(`[^a-zA-Z0-9]+`)
 
-	var points int = 0
+	points := 0
 	//Check Alphanumerics - 1 point per
-	var slimmedName string = nonAlphanumericRegex.ReplaceAllString(enteredReceipt.Retailer, "")
+	slimmedName := nonAlphanumericRegex.ReplaceAllString(enteredReceipt.Retailer, "")
 	points += len(slimmedName)
 
 	//Separate the decimal out
-	var floatOfTotal, _ = strconv.ParseFloat(enteredReceipt.Total, 64)
-	var _, decimal = math.Modf(floatOfTotal)
+	floatOfTotal, _ := strconv.ParseFloat(enteredReceipt.Total, 64)
+	_, decimal := math.Modf(floatOfTotal)
 
 	//Check for round dollar value - 50 points
 	if decimal == .0 {
@@ -38,17 +38,17 @@ func ProcessReceipt(enteredReceipt TotalReceipt) int {
 
 	//Trimmed length of item description is mult 3, mult price by .2, round up, that many points.
 	for _, givenEntry := range enteredReceipt.Items {
-		var description = strings.Trim(givenEntry.ShortDescription, " ")
+		description := strings.Trim(givenEntry.ShortDescription, " ")
 		//Check if multiple of 3
 		if len(description)%3 == 0 {
 			//Do the multiplication and Ceiling check
-			var floatOfEntry, _ = strconv.ParseFloat(givenEntry.Price, 64)
+			floatOfEntry, _ := strconv.ParseFloat(givenEntry.Price, 64)
 			points += int(math.Ceil(floatOfEntry * .2))
 		}
 	}
 
 	//Purchase date odd - 6 points
-	var date, dateError = time.Parse(dateFormat, enteredReceipt.PurchaseDate)
+	date, dateError := time.Parse(dateFormat, enteredReceipt.PurchaseDate)
 	if dateError != nil {
 		fmt.Println("Error in date parsing, returning -1, " + dateError.Error())
 		return -1
@@ -58,7 +58,7 @@ func ProcessReceipt(enteredReceipt TotalReceipt) int {
 	}
 
 	//Purchase between 2 and 4 pm - 10 points
-	var time, timeError = time.Parse(timeFormat, enteredReceipt.PurchaseTime+":00")
+	time, timeError := time.Parse(timeFormat, enteredReceipt.PurchaseTime+":00")
 	if timeError != nil {
 		fmt.Println("Error in time parsing, returning -1, " + timeError.Error())
 		return -1
